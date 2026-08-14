@@ -1,6 +1,4 @@
-import React from 'react'
-
-export const Navbar = () => {
+export const Navbar = ({ runningCount }) => {
   return (
     <nav className="d-flex justify-content-between align-items-center p-3 border-bottom">
 
@@ -8,7 +6,7 @@ export const Navbar = () => {
         <span>RC</span>
 
         <span className="border px-3 py-1">
-          0
+          {runningCount}
         </span>
       </div>
 

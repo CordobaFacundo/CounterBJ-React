@@ -1,21 +1,29 @@
-import React from 'react'
-import { cards, HI_LO } from '../data/values'
+import { cards } from '../data/values'
 
-export const CardSelector = () => {
+export const CardSelector = ({ onCardClick }) => {
+  const firstRowCards = cards.slice(0, 7)
+  const secondRowCards = cards.slice(7)
 
   const handleCardClick = (card) => {
-    const hiLoValue = HI_LO[card];
-    console.log(`Card: ${card}, Hi-Lo Value: ${hiLoValue}`);
+    onCardClick(card);
   };
+
+  const renderCardButton = (card) => (
+    <button key={card} onClick={() => handleCardClick(card)} className="card-selector-button btn btn-outline-dark">
+      {card}
+    </button>
+  )
 
   return (
     <div className="text-center my-4">
-      <div className="d-flex flex-wrap justify-content-center gap-2">
-        {cards.map((card) => (
-          <button key={card} onClick={() => handleCardClick(card)} className="btn btn-outline-dark px-3 py-2">
-            {card}
-          </button>
-        ))}
+      <div className="d-flex flex-column align-items-center gap-2">
+        <div className="d-flex flex-wrap justify-content-center gap-2">
+          {firstRowCards.map(renderCardButton)}
+        </div>
+
+        <div className="d-flex flex-wrap justify-content-center gap-2">
+          {secondRowCards.map(renderCardButton)}
+        </div>
       </div>
     </div>
   )
