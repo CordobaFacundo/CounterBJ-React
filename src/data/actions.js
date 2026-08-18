@@ -8,6 +8,8 @@ export const ACTIONS = {
   SPLIT: 'SPLIT',
   NO_SPLIT: 'NO_SPLIT',
   SURRENDER: 'SURRENDER',
+  BUST: 'BUST',
+  BLACKJACK: 'BLACKJACK',
 };
 
 export const ACTIONS_LABELS = {
@@ -18,5 +20,7 @@ export const ACTIONS_LABELS = {
   DOUBLE_OR_STAND: 'Double / Stand',
   SPLIT: 'Split',
   NO_SPLIT: 'No Split',
-  SURRENDER: 'Surrender'
+  SURRENDER: 'Surrender',
+  BUST: 'Bust',
+  BLACKJACK: 'Blackjack'
 };

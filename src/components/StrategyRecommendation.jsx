@@ -1,4 +1,12 @@
-export const StrategyRecommendation = () => {
+import { ACTIONS_LABELS } from '../data/actions'
+import { getBasicStrategy } from '../utils/getBasicStrategy'
+
+export const StrategyRecommendation = ({ dealerCards, playerCards }) => {
+  const canShowStrategy = dealerCards.length > 0 && playerCards.length > 1
+  const recommendation = canShowStrategy
+    ? getBasicStrategy(playerCards, dealerCards[0])
+    : null
+
   return (
     <div className="d-flex justify-content-center gap-4 mt-4">
 
@@ -7,7 +15,7 @@ export const StrategyRecommendation = () => {
 
         <div className="strategy-result-box border rounded">
           <span className="fs-5 fw-bold">
-            HIT
+            {recommendation ? ACTIONS_LABELS[recommendation.action] : '-'}
           </span>
         </div>
       </div>

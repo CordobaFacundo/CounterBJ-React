@@ -173,7 +173,10 @@ function App() {
               </button>
             </div>
           </div>
-          <StrategyRecommendation />
+          <StrategyRecommendation
+            dealerCards={dealerCards}
+            playerCards={playerCards}
+          />
         </div>
       </div>
     </div>
