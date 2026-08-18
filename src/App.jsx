@@ -1,29 +1,57 @@
 
 import { useState } from 'react'
-import { HI_LO } from './data/values'
+import { INITIAL_DECKS } from './data/values'
 import { CardSelector } from './components/CardSelector'
 import { Navbar } from './components/Navbar'
 import { StrategyRecommendation } from './components/StrategyRecommendation'
+import { calculateRunningCount } from './utils/calculateRunningCount'
 
 function App() {
-  const [runningCount, setRunningCount] = useState(0)
-  const [cardsHistory, setCardsHistory] = useState([])
+  const [cardsHistory, setCardsHistory] = useState({
+    cards: [],
+    target: null
+  })
+  const [decksRemaining, setDecksRemaining] = useState(INITIAL_DECKS)
+
+  const runningCount = calculateRunningCount(cardsHistory)
+  const visibleCardsHistory = cardsHistory.cards.slice(-6)
 
   const handleCardClick = (card) => {
-    setRunningCount((currentRunningCount) => currentRunningCount + HI_LO[card])
     setCardsHistory((currentCardsHistory) => {
-      const nextHistory = [...currentCardsHistory, card];
-      return nextHistory.slice(-6);
+      return {
+        ...currentCardsHistory,
+        cards: [...currentCardsHistory.cards, card]
+      }
     })
-  };
+  }
 
+  const handleUndoClick = () => {
+    setCardsHistory((currentCardsHistory) => {
+      return {
+        ...currentCardsHistory,
+        cards: currentCardsHistory.cards.slice(0, -1)
+      }
+    })
+  }
+
+  const handleNewShoe = () => {
+    setCardsHistory({
+      cards: [],
+      target: null
+    })
+    setDecksRemaining(INITIAL_DECKS)
+  }
 
   return (
     <div className="container py-4">
       <div className="border rounded-4 overflow-hidden">
 
-        <Navbar runningCount={runningCount} />
-        Cards history: {cardsHistory.map((card, index) => (
+        <Navbar
+          runningCount={runningCount}
+          decksRemaining={decksRemaining}
+          onNewShoe={handleNewShoe}
+        />
+        Cards history: {visibleCardsHistory.map((card, index) => (
           <span key={index} className="me-2">{card}</span>
         ))}
 
@@ -78,7 +106,11 @@ function App() {
                 Next Hand
               </button>
 
-              <button className="btn btn-outline-danger px-4 py-2">
+              <button
+                className="btn btn-outline-danger px-4 py-2"
+                onClick={handleUndoClick}
+                disabled={cardsHistory.cards.length === 0}
+              >
                 <span aria-hidden="true" className="me-2">&larr;</span>
                 Undo
               </button>

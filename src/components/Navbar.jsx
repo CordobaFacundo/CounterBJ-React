@@ -1,4 +1,4 @@
-export const Navbar = ({ runningCount }) => {
+export const Navbar = ({ runningCount, decksRemaining, onNewShoe }) => {
   return (
     <nav className="d-flex justify-content-between align-items-center p-3 border-bottom">
 
@@ -11,7 +11,7 @@ export const Navbar = ({ runningCount }) => {
       </div>
 
       <div>
-        <button className="btn btn-outline-secondary">
+        <button className="btn btn-outline-secondary" onClick={onNewShoe}>
           New Shoe
         </button>
       </div>
@@ -28,7 +28,7 @@ export const Navbar = ({ runningCount }) => {
         <span>Decks</span>
 
         <span className="border px-3 py-1">
-          8
+          {decksRemaining}
         </span>
       </div>
 
