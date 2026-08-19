@@ -123,6 +123,7 @@ function App() {
         <Navbar
           runningCount={runningCount}
           decksRemaining={decksRemaining}
+          onDecksRemainingChange={setDecksRemaining}
           onNewShoe={handleNewShoe}
         />
         Cards history: {visibleCardsHistory.map((card, index) => (
