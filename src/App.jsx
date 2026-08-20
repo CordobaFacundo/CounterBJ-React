@@ -29,6 +29,9 @@ function App() {
   const [decksRemaining, setDecksRemaining] = useState(INITIAL_DECKS)
 
   const runningCount = calculateRunningCount(cardsHistory)
+  const trueCount = decksRemaining > 0
+    ? runningCount / decksRemaining
+    : 0
   const visibleCardsHistory = getCardsHistoryCards(cardsHistory).slice(-6)
 
   const [dealerCards, setDealerCards] = useState([])
@@ -177,6 +180,7 @@ function App() {
           <StrategyRecommendation
             dealerCards={dealerCards}
             playerCards={playerCards}
+            trueCount={trueCount}
           />
         </div>
       </div>
