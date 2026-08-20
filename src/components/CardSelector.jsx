@@ -9,7 +9,7 @@ export const CardSelector = ({ onCardClick }) => {
   };
 
   const renderCardButton = (card) => (
-    <button key={card} onClick={() => handleCardClick(card)} className="card-selector-button btn btn-outline-dark">
+    <button key={card} onClick={() => handleCardClick(card)} className="card-selector-button btn btn-outline-dark btn-tactile">
       {card}
     </button>
   )

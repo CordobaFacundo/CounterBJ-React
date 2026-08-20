@@ -8,7 +8,7 @@ export const Others = ({ cards, isActive, onSelect }) => {
         Others
       </TargetTitleButton>
 
-      <CardSlots cards={cards} minimumSlots={3} />
+      <CardSlots cards={cards} minimumSlots={2} />
     </div>
   )
 }

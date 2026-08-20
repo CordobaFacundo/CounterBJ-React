@@ -7,7 +7,10 @@ export const CardSlots = ({ cards, minimumSlots }) => {
   return (
     <div className="d-flex flex-wrap justify-content-center gap-2">
       {slots.map((slot, index) => (
-        <div key={index} className="blackjack-card-slot border rounded fs-5">
+        <div
+          key={index}
+          className={`blackjack-card-slot ${slot === '?' ? 'blackjack-card-slot-placeholder' : ''} border rounded fs-5`}
+        >
           {slot}
         </div>
       ))}

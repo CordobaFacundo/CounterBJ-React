@@ -120,8 +120,8 @@ function App() {
   }
 
   return (
-    <div className="container py-4">
-      <div className="border rounded-4 overflow-hidden">
+    <div className="container py-4 blackjack-app-shell">
+      <div className="border rounded-4 overflow-hidden blackjack-table">
 
         <Navbar
           runningCount={runningCount}
@@ -129,9 +129,15 @@ function App() {
           onDecksRemainingChange={setDecksRemaining}
           onNewShoe={handleNewShoe}
         />
-        Cards history: {visibleCardsHistory.map((card, index) => (
-          <span key={index} className="me-2">{card}</span>
-        ))}
+        <div className="cards-history px-3 py-2">
+          <span className="cards-history-label me-2">Cards history:</span>
+          {visibleCardsHistory.length === 0 && (
+            <span className="cards-history-empty">No cards yet</span>
+          )}
+          {visibleCardsHistory.map((card, index) => (
+            <span key={index} className="history-card me-2">{card}</span>
+          ))}
+        </div>
 
         <div className="p-4">
 
@@ -161,14 +167,14 @@ function App() {
             </div>
             <div className="d-flex flex-column gap-2 mt-4">
               <button
-                className="btn btn-outline-secondary px-4 py-2"
+                className="btn btn-outline-secondary btn-tactile px-4 py-2"
                 onClick={handleNextHand}
               >
                 Next Hand
               </button>
 
               <button
-                className="btn btn-outline-danger px-4 py-2"
+                className="btn btn-outline-danger btn-tactile px-4 py-2"
                 onClick={handleUndoClick}
                 disabled={cardsHistory.cards.length === 0}
               >

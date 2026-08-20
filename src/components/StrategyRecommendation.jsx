@@ -23,7 +23,7 @@ export const StrategyRecommendation = ({ dealerCards, playerCards, trueCount }) 
     : null
 
   return (
-    <div className="d-flex justify-content-center gap-4 mt-4">
+    <div className="strategy-panel d-flex justify-content-center gap-4 mt-4">
 
       <div className="text-center">
         <h5 className="mb-2">Basic Strategy</h5>
