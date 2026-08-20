@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { DECK_STEP, INITIAL_DECKS } from '../data/values'
 
 const MIN_DECKS = 0.5
-const MAX_DECKS = 8
-const DECK_STEP = 0.5
 const SLIDER_CLOSE_DELAY = 900
 
 export const Navbar = ({
@@ -77,7 +76,7 @@ export const Navbar = ({
               className="form-range"
               type="range"
               min={MIN_DECKS}
-              max={MAX_DECKS}
+              max={INITIAL_DECKS}
               step={DECK_STEP}
               value={decksRemaining}
               aria-label="Decks remaining"
@@ -88,7 +87,7 @@ export const Navbar = ({
             <div className="d-flex justify-content-between align-items-center small text-secondary">
               <span>{MIN_DECKS}</span>
               <strong className="text-body">{decksRemaining}</strong>
-              <span>{MAX_DECKS}</span>
+              <span>{INITIAL_DECKS}</span>
             </div>
           </div>
         )}

@@ -1,7 +1,7 @@
 
 import { useState } from 'react'
 import { CARD_TARGETS } from './data/cardTargets'
-import { INITIAL_DECKS } from './data/values'
+import { DECK_STEP, INITIAL_DECKS } from './data/values'
 import { CardSelector } from './components/CardSelector'
 import { Dealer } from './components/Dealer'
 import { Navbar } from './components/Navbar'
@@ -10,8 +10,14 @@ import { Player } from './components/Player'
 import { StrategyRecommendation } from './components/StrategyRecommendation'
 import { calculateRunningCount } from './utils/calculateRunningCount'
 
-const getNextActiveTarget = ({ activeTarget, dealerCards }) => {
-  if (activeTarget === CARD_TARGETS.DEALER && dealerCards.length === 1) {
+const CARDS_PER_HALF_DECK = 26
+
+const getNextActiveTarget = ({ activeTarget, dealerCards, playerCards }) => {
+  if (activeTarget === CARD_TARGETS.PLAYER && playerCards.length === 1) {
+    return CARD_TARGETS.DEALER
+  }
+
+  if (activeTarget === CARD_TARGETS.DEALER && dealerCards.length === 1 && playerCards.length === 1) {
     return CARD_TARGETS.PLAYER
   }
 
@@ -26,9 +32,20 @@ function App() {
   const [cardsHistory, setCardsHistory] = useState({
     cards: []
   })
-  const [decksRemaining, setDecksRemaining] = useState(INITIAL_DECKS)
+  const [deckBaseline, setDeckBaseline] = useState({
+    decksRemaining: INITIAL_DECKS,
+    cardsSeen: 0
+  })
 
   const runningCount = calculateRunningCount(cardsHistory)
+  const cardsSeenSinceDeckSet = Math.max(
+    cardsHistory.cards.length - deckBaseline.cardsSeen,
+    0
+  )
+  const decksRemaining = Math.max(
+    deckBaseline.decksRemaining - Math.floor(cardsSeenSinceDeckSet / CARDS_PER_HALF_DECK) * DECK_STEP,
+    0
+  )
   const trueCount = decksRemaining > 0
     ? runningCount / decksRemaining
     : 0
@@ -38,7 +55,7 @@ function App() {
   const [playerCards, setPlayerCards] = useState([])
   const [othersCards, setOthersCards] = useState([])
 
-  const [activeTarget, setActiveTarget] = useState(CARD_TARGETS.DEALER)
+  const [activeTarget, setActiveTarget] = useState(CARD_TARGETS.PLAYER)
 
   const handleCardClick = (card) => {
     const target = activeTarget
@@ -53,7 +70,8 @@ function App() {
       : othersCards
     const nextActiveTarget = getNextActiveTarget({
       activeTarget: target,
-      dealerCards: nextDealerCards
+      dealerCards: nextDealerCards,
+      playerCards: nextPlayerCards
     })
 
     setCardsHistory((currentCardsHistory) => {
@@ -108,14 +126,24 @@ function App() {
     setDealerCards([])
     setPlayerCards([])
     setOthersCards([])
-    setActiveTarget(CARD_TARGETS.DEALER)
+    setActiveTarget(CARD_TARGETS.PLAYER)
+  }
+
+  const handleDecksRemainingChange = (nextDecksRemaining) => {
+    setDeckBaseline({
+      decksRemaining: nextDecksRemaining,
+      cardsSeen: cardsHistory.cards.length
+    })
   }
 
   const handleNewShoe = () => {
     setCardsHistory({
       cards: []
     })
-    setDecksRemaining(INITIAL_DECKS)
+    setDeckBaseline({
+      decksRemaining: INITIAL_DECKS,
+      cardsSeen: 0
+    })
     handleNextHand()
   }
 
@@ -126,7 +154,7 @@ function App() {
         <Navbar
           runningCount={runningCount}
           decksRemaining={decksRemaining}
-          onDecksRemainingChange={setDecksRemaining}
+          onDecksRemainingChange={handleDecksRemainingChange}
           onNewShoe={handleNewShoe}
         />
         <div className="cards-history px-3 py-2">
